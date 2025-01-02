@@ -4,14 +4,13 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '0 0 * * *'
-  workflow_dispatch:
 
 jobs:
   check:
     runs-on: ubuntu-latest
     outputs:
-      tag: ${{ steps.check-version.outputs.tag }}
-      status: ${{ steps.check-version.outputs.status }}
+      tag: ${{ steps.check-update.outputs.tag }}
+      status: ${{ steps.check-update.outputs.status }}
     steps:
       - name: Check Update
         id: check-update
@@ -59,15 +58,7 @@ jobs:
           build-args: |
             TAG=${{ needs.check.outputs.tag }}
             REPOSITORY=IrineSistiana/mosdns
-          platforms:
-            - linux/amd64
-            - linux/arm/v6
-            - linux/arm/v7
-            - linux/arm64
-            - linux/386
-            - linux/ppc64le
-            - linux/riscv64
-            - linux/s390x
+          platforms: linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/386,linux/ppc64le,linux/riscv64,linux/s390x
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/mosdns:latest
