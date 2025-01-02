@@ -58,8 +58,7 @@ jobs:
           build-args: |
             TAG=${{ needs.check.outputs.tag }}
             REPOSITORY=IrineSistiana/mosdns
-          # platforms: linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/386,linux/ppc64le,linux/riscv64,linux/s390x
-          platforms: linux/amd64
+          platforms: linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/386,linux/ppc64le,linux/riscv64,linux/s390x
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/mosdns:latest
