@@ -12,13 +12,15 @@ RUN apk add --update git \
 	&& go build -ldflags "-s -w -X main.version=${TAG}" -trimpath -o mosdns
 
 FROM --platform=${TARGETPLATFORM} alpine:latest
-LABEL maintainer="IrineSistiana <github.com/IrineSistiana>"
+LABEL maintainer="dalamudx <github.com/dalamudx>"
 
 COPY --from=builder /root/mosdns/mosdns /usr/bin/
 
-RUN apk add --no-cache ca-certificates \
-	&& mkdir /etc/mosdns
+RUN apk add --no-cache ca-certificates bash tzdata curl supervisor git \
+	&& mkdir /app
 
-VOLUME /etc/mosdns
+VOLUME /app
 EXPOSE 53/udp 53/tcp
-CMD /usr/bin/mosdns start --dir /etc/mosdns
+COPY entrypoint.sh /entrypoint.sh
+WORKDIR /app
+ENTRYPOINT /entrypoint.sh
