@@ -15,7 +15,7 @@ FROM --platform=${TARGETPLATFORM} alpine:latest
 LABEL maintainer="dalamudx <github.com/dalamudx>"
 ARG TARGETPLATFORM
 COPY --from=builder /root/mosdns/mosdns /usr/bin/
-RUN apk add --no-cache ca-certificates bash tzdata curl supervisor git 
+RUN apk add --no-cache ca-certificates bash tzdata curl supervisor git gcompat
 RUN set -x; \
 	platform=`echo ${TARGETPLATFORM}|sed 's/\//-/g'`; \
 	downlink='https://github.com/dalamudx/v2dat/releases/latest/download'; \
