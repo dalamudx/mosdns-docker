@@ -23,10 +23,9 @@ RUN set -x; \
 	then curl -sSL ${downlink}/v2dat-linux-arm -o /usr/bin/v2dat; \
 	else curl -sSL ${downlink}/v2dat-${platform} -o /usr/bin/v2dat; \
 	fi 
-RUN mkdir /app && chmod +x /usr/bin/v2dat /usr/bin/mosdns
-
+COPY entrypoint.sh /entrypoint.sh
+RUN mkdir /app && chmod +x /usr/bin/v2dat /usr/bin/mosdns /entrypoint.sh
 VOLUME /app
 EXPOSE 53/udp 53/tcp
-COPY entrypoint.sh /entrypoint.sh
 WORKDIR /app
 ENTRYPOINT /entrypoint.sh
