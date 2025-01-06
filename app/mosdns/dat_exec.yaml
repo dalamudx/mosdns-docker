@@ -1,0 +1,77 @@
+plugins:
+  ################## 数据源 ################
+  - tag: geoip_private # 私网 ip
+    type: ip_set
+    args:
+      files:
+        - "/app/mosdns/rules/geoip_private.txt"
+  - tag: geoip_cn # cn ip
+    type: ip_set
+    args:
+      files:
+        - "/app/mosdns/rules/geoip_cn.txt"
+  - tag: gfw_cidr # cn ip
+    type: ip_set
+    args:
+      files:
+        - "/app/mosdns/rules/gfw_ip_list.txt"
+  - tag: geosite_cn # cn 域名
+    type: domain_set
+    args:
+      files:
+        - "/app/mosdns/rules/geosite_cn.txt"
+  - tag: geosite_google-cn # cn 域名
+    type: domain_set
+    args:
+      files:
+        - "/app/mosdns/rules/geosite_google-cn.txt"
+  - tag: geosite_gfw # gfw 域名
+    type: domain_set
+    args:
+      files:
+        - "/app/mosdns/rules/geosite_gfw.txt"
+        - "/app/mosdns/rules/geosite_greatfire.txt"
+  - tag: geosite_location-nocn # 非 cn 域名
+    type: domain_set
+    args:
+      files:
+        - "/app/mosdns/rules/geosite_geolocation-!cn.txt"
+  - tag: geosite_ads-all # 广告域名
+    type: domain_set
+    args:
+      files:
+        - "/app/mosdns/rules/geosite_category-ads-all.txt"
+  - tag: geosite_akamai # akamai域名
+    type: domain_set
+    args:
+      files:
+        - "/app/mosdns/rules/geosite_akamai.txt"
+  - tag: cloudflare_cidr # CF IP
+    type: ip_set
+    args:
+      files:
+        - "/app/mosdns/rules/cloudflare_cidr.txt"
+
+  ################# 可执行插件 ################
+
+  # 缓存
+  - tag: cache_0
+    type: cache
+    args:
+      size: 131072
+      lazy_cache_ttl: 86400
+
+
+  # 调整 ttl
+  - tag: ttl_1m
+    type: sequence
+    args:
+      - exec: ttl 60
+  - tag: ttl_5m
+    type: sequence
+    args:
+      - exec: ttl 300
+  - tag: ttl_1h
+    type: sequence
+    args:
+      - exec: ttl 3600

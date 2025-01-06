@@ -1,1 +1,9 @@
-#!/bin/sh
+rule_path="/app/mosdns/rules"
+proxy="https://cdn.jsdelivr.net/gh"
+dat_repo="MetaCubeX/meta-rules-dat@release"
+ext_repo="pmkol/easymosdns@rules"
+curl -sSL ${proxy}/${dat_repo}/geoip.dat -o ${rule_path}/geoip.dat
+curl -sSL ${proxy}/${dat_repo}/geosite.dat -o ${rule_path}/geosite.dat
+curl -sSL ${proxy}/${ext_repo}/gfw_ip_list.txt -o ${rule_path}/gfw_ip_list.txt
+/usr/bin/v2dat unpack geoip -o ${rule_path} -f cn -f private -f cloudflare ${rule_path}/geoip.dat
+/usr/bin/v2dat unpack geosite -o ${rule_path} -f cn -f greatfire -f geolocation-\!cn -f google-cn -f category-ads-all -f gfw -f akamai ${rule_path}/geosite.dat

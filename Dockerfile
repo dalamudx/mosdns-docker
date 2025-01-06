@@ -16,8 +16,8 @@ LABEL maintainer="dalamudx <github.com/dalamudx>"
 ARG TARGETPLATFORM
 COPY --from=builder /root/mosdns/mosdns /usr/bin/
 RUN apk add --no-cache ca-certificates bash tzdata curl supervisor git 
-RUN set -x; \
-	platform=`echo ${TARGETPLATFORM}|sed 's/\//-/g'`; \
+RUN set -x \
+	&& platform=`echo ${TARGETPLATFORM}|sed 's/\//-/g'`; \
 	downlink='https://github.com/dalamudx/v2dat/releases/latest/download'; \
 	if [ ${platform} = 'linux-arm-v6' ] || [ ${platform} = 'linux-arm-v7' ]; \
 	then curl -sSL ${downlink}/v2dat-linux-arm -o /usr/bin/v2dat; \
